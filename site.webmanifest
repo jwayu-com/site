@@ -1,0 +1,15 @@
+{
+  "name": "JWAYU",
+  "short_name": "JWAYU",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#061431",
+  "theme_color": "#061431",
+  "icons": [
+    {
+      "src": "/assets/img/logo-jwayu-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ]
+}

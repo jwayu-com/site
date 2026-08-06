@@ -1,0 +1,19 @@
+# JWAYU
+
+JWAYU develops variational neurons and variational language models.
+
+## Core pages
+- https://jwayu.com/
+- https://jwayu.com/publications/
+- https://jwayu.com/people/yves-ruffenach/
+- https://jwayu.com/variational-neuron/
+- https://jwayu.com/variational-language-models/
+- https://jwayu.com/variational-transformer/
+- https://jwayu.com/internal-uncertainty-language-models/
+- https://jwayu.com/variational-closure/
+
+## Research Square publications
+- https://jwayu.com/publications/distributional-neurons-making-uncertainty-unit-computation/ — Distributional Neurons: Making Uncertainty a Unit of Computation
+- https://jwayu.com/publications/the-neuron-is-the-distribution/ — The Neuron Is the Distribution
+- https://jwayu.com/publications/the-neuron-as-a-latent-state/ — The Neuron as a Latent State: Classical Variational Readout in Distributional Neural Units
+- https://jwayu.com/publications/measuring-controlling-internal-activity-variational-neural-units/ — Measuring and Controlling Internal Activity in Variational Neural Units

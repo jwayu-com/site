@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>JWAYU — Variational Language Models and Variational Neurons</title>
+<meta content="JWAYU develops variational language models powered by EVE, a local probabilistic unit that makes uncertainty measurable within the model’s internal computation." name="description"/>
+<meta content="#061431" name="theme-color"/>
+<meta content="website" property="og:type"/>
+<meta content="JWAYU — Variational Language Models and Variational Neurons" property="og:title"/>
+<meta content="JWAYU develops variational language models powered by EVE, a local probabilistic unit that makes uncertainty measurable within the model’s internal computation." property="og:description"/>
+<meta content="https://jwayu.com/" property="og:url"/>
+<meta content="https://jwayu.com/assets/img/publications/jwayu-1200x630.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="https://jwayu.com/" rel="canonical"/><link href="https://jwayu.com/" hreflang="x-default" rel="alternate"/><link href="https://jwayu.com/" hreflang="en" rel="alternate"/><link href="https://jwayu.com/fr/" hreflang="fr" rel="alternate"/><link href="https://jwayu.com/zh/" hreflang="zh-Hans" rel="alternate"/><link href="https://jwayu.com/es/" hreflang="es" rel="alternate"/><link href="https://jwayu.com/it/" hreflang="it" rel="alternate"/><link href="https://jwayu.com/de/" hreflang="de" rel="alternate"/>
+<meta content="index,follow,max-snippet:-1,max-image-preview:large" name="robots"/>
+<link href="https://jwayu.com/sitemap.xml" rel="sitemap" title="Sitemap" type="application/xml"/>
+<link href="assets/img/logo-jwayu-48.png" rel="icon" type="image/png"/>
+<link href="assets/css/styles.css" rel="stylesheet"/>
+<style>
+    .brand-name-stack {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      line-height: 1;
+    }
+    .brand-cn {
+      margin-top: 0.22rem;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 0.58em;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      opacity: 0.82;
+      white-space: nowrap;
+    }
+    .brand-inline-cn {
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+  </style>
+<script defer="" src="assets/js/main.js"></script>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/><meta content="JWAYU — Variational Language Models and Variational Neurons" name="twitter:title"/><meta content="JWAYU develops variational language models powered by EVE, a local probabilistic unit that makes uncertainty measurable within the model’s internal computation." name="twitter:description"/><meta content="https://jwayu.com/assets/img/publications/jwayu-1200x630.png" name="twitter:image"/><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://jwayu.com/#website","url":"https://jwayu.com/","name":"JWAYU","inLanguage":["en","fr","zh-Hans","es","it","de"]},{"@type":"Organization","@id":"https://jwayu.com/#organization","name":"JWAYU 杰维宇","url":"https://jwayu.com/","logo":{"@type":"ImageObject","url":"https://jwayu.com/assets/img/logo-jwayu-512.webp"},"description":"Research and development of variational language models powered by variational neurons.","founder":{"@id":"https://jwayu.com/people/yves-ruffenach/#person"},"email":"mailto:yves@ruffenach.net"},{"@type":"Person","@id":"https://jwayu.com/people/yves-ruffenach/#person","name":"Yves Ruffenach","url":"https://jwayu.com/people/yves-ruffenach/","sameAs":["https://orcid.org/0009-0009-4737-0555","https://arxiv.org/search/?query=Yves+Ruffenach&searchtype=author"]}]}</script><link href="site.webmanifest" rel="manifest"/></head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<div aria-hidden="true" class="scroll-progress"></div>
+<header class="site-header">
+<div class="container nav-shell">
+<a aria-label="JWAYU 杰维宇 home" class="brand" href="#top">
+<span class="brand-mark"><img alt="" height="38" src="assets/img/logo-jwayu-96.png" width="38"/></span>
+<span class="brand-name-stack">
+<span class="brand-word">JWAYU</span>
+<span class="brand-cn" lang="zh-CN">杰维宇</span>
+</span>
+</a>
+<button aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" class="menu-toggle" type="button"><span></span></button>
+<nav aria-label="Primary navigation" class="nav-links" id="primary-navigation">
+<a href="#vision">Vision</a>
+<a href="#neuron">The neuron</a>
+<a href="#models">Language models</a>
+<a href="#publications">Publications</a>
+<a href="#investors">Investors</a>
+<a href="#contact">Contact</a>
+<a class="lang-switch" href="fr/" hreflang="fr" lang="fr">Français</a><a class="lang-switch" href="zh/" hreflang="zh-Hans" lang="zh-Hans">中文</a><a class="lang-switch" href="es/" hreflang="es" lang="es">Español</a><a class="lang-switch" href="it/" hreflang="it" lang="it">Italiano</a><a class="lang-switch" href="de/" hreflang="de" lang="de">Deutsch</a></nav>
+</div>
+</header>
+<main id="main-content">
+<section class="hero" id="top">
+<canvas aria-hidden="true" id="latent-field"></canvas>
+<div class="container hero-grid">
+<div class="hero-content reveal">
+<p class="eyebrow">Variational intelligence, built from the neuron up</p>
+<h1>We’re building the next generation of models: <span class="gradient-text">Variational LLMs.</span></h1>
+<p class="hero-copy"><strong>JWAYU <span class="brand-inline-cn" lang="zh-CN">杰维宇</span></strong> develops language models in which uncertainty is not added only at the output. It becomes part of the internal computation itself, through EVE — the Elemental Variational Expanse.</p>
+<div class="hero-actions">
+<a class="button button-primary" href="#neuron">Explore the technology <span aria-hidden="true">→</span></a>
+<a class="button button-secondary" href="#publications">Read the research</a>
+</div>
+<div aria-label="Research focus" class="hero-proof">
+<div class="proof-item"><strong>Local distributions</strong><span>inside hidden computation</span></div>
+<div class="proof-item"><strong>Measurable uncertainty</strong><span>KL, variance, mutual information</span></div>
+<div class="proof-item"><strong>Transformer-ready</strong><span>integrated into language modeling</span></div>
+</div>
+</div>
+<div aria-label="JWAYU logo" class="logo-stage reveal">
+<div class="logo-card"><img alt="JWAYU nine-tailed neural fox logo" fetchpriority="high" height="433" loading="eager" sizes="(max-width:700px) 70vw, 512px" src="assets/img/logo-jwayu-512.webp" srcset="assets/img/logo-jwayu-256.webp 256w, assets/img/logo-jwayu-512.webp 512w, assets/img/logo-jwayu-1024.webp 1024w" width="512"/></div>
+<span class="orbit-label one">EVE neuron</span>
+<span class="orbit-label two">Internal uncertainty</span>
+<span class="orbit-label three">Possible futures</span>
+</div>
+</div>
+</section>
+<section id="vision">
+<div class="container">
+<div class="section-heading reveal">
+<div>
+<p class="section-kicker">Our thesis</p>
+<h2>The network is not the starting point. <span class="gradient-text">The neuron is.</span></h2>
+</div>
+<p>Modern language models are extraordinarily capable, yet their internal units remain largely deterministic. JWAYU begins with a different premise: when ambiguity is intrinsic to intelligence, the computational unit should be able to represent it.</p>
+</div>
+<div class="split-grid">
+<article class="card reveal">
+<span class="card-label">The current primitive</span>
+<h3>One input. One activation.</h3>
+<p>A conventional neuron compresses its input into a single scalar activation. It is precise, stable and efficient, but it collapses local possibilities immediately into one point.</p>
+<code class="formula">h = φ(wᵀx + b)</code>
+</article>
+<article class="card reveal">
+<span class="card-label">The JWAYU primitive</span>
+<h3>One input. A structured space of possibilities.</h3>
+<p>An EVE unit constructs an input-conditioned posterior, samples a latent state through reparameterization and uses that state directly in computation.</p>
+<code class="formula">qφ(z|x) = 𝒩(μ(x), diag(σ²(x)))</code>
+</article>
+</div>
+</div>
+</section>
+<section id="neuron">
+<div class="container">
+<div class="section-heading reveal">
+<div>
+<p class="section-kicker">EVE — Elemental Variational Expanse</p>
+<h2>What is a variational neuron?</h2>
+</div>
+<p>It is a local probabilistic computational unit with an explicit prior, an amortized posterior and unit-level variational regularization. Its activation is no longer merely a value: it is generated from a learned distribution.</p>
+</div>
+<div aria-label="EVE computation process" class="process">
+<article class="process-step reveal"><span class="step-number">1</span><h3>Condition</h3><p>The unit receives the current representation and produces posterior parameters.</p></article>
+<article class="process-step reveal"><span class="step-number">2</span><h3>Represent</h3><p>A local Gaussian posterior represents a continuous set of plausible latent states.</p></article>
+<article class="process-step reveal"><span class="step-number">3</span><h3>Sample</h3><p>Reparameterization produces a differentiable latent sample used in the forward pass.</p></article>
+<article class="process-step reveal"><span class="step-number">4</span><h3>Constrain</h3><p>A local KL term regularizes the posterior against its prior and makes the unit’s operating regime measurable.</p></article>
+</div>
+<div class="compare-grid">
+<article class="card compare-card reveal">
+<span class="card-label">Deterministic neuron</span>
+<h3>Point computation</h3>
+<p>Propagates one activation. Uncertainty is not represented inside the unit.</p>
+</article>
+<article class="card compare-card reveal">
+<span class="card-label">Dropout / stochastic masking</span>
+<h3>Randomized computation</h3>
+<p>Introduces randomness through masks or sampled paths, without turning each unit into an explicit input-conditioned latent posterior.</p>
+</article>
+<article class="card compare-card featured reveal">
+<span class="card-label">EVE</span>
+<h3>Probabilistic computation</h3>
+<p>Maintains a learned local distribution with a prior, a posterior, a latent sample and internal diagnostics.</p>
+</article>
+</div>
+</div>
+</section>
+<section id="models">
+<div class="container">
+<div class="statement reveal">
+<p class="statement-quote">A language model should not have to collapse uncertainty before it has used it.</p>
+<div class="statement-copy">
+<p>A Variational language model introduces EVE units into the model’s hidden computation, including Transformer feed-forward blocks. The overall architecture remains recognizable, while its internal computational primitive changes.</p>
+<p>Instead of treating uncertainty as a final confidence score, the model can carry local latent structure across layers and use internal signals such as posterior variance, KL divergence and mutual information for evaluation, calibration and control.</p>
+</div>
+</div>
+<div class="section-heading reveal" style="margin-top: 92px;">
+<div>
+<p class="section-kicker">From neuron to model</p>
+<h2>A research program across four layers.</h2>
+</div>
+<p>JWAYU develops the primitive, studies its operating regime, integrates it into Transformers and turns internal uncertainty into an actionable signal.</p>
+</div>
+<div class="compare-grid">
+<article class="card reveal"><span class="card-label">01 · Primitive</span><h3>The neuron is the distribution</h3><p>Define local variational computation and make its internal probabilistic state observable.</p></article>
+<article class="card reveal"><span class="card-label">02 · Composition</span><h3>Build networks from EVE units</h3><p>Study stability, capacity, latent dimensionality, temporal persistence and collapse control.</p></article>
+<article class="card reveal"><span class="card-label">03 · Language</span><h3>Variational Transformers</h3><p>Integrate EVE into feed-forward computation while preserving a practical Transformer backbone.</p></article>
+<article class="card reveal"><span class="card-label">04 · Control</span><h3>Turn uncertainty into an operational signal</h3><p>Use internal diagnostics for monitoring, checkpoint selection, routing and inference-time intervention.</p></article></div>
+</div>
+</section>
+<section id="publications">
+<div class="container">
+<div class="section-heading reveal" style="margin-top:72px;">
+<div>
+<p class="section-kicker">Earlier work</p>
+<h2>Foundational arXiv publications.</h2>
+</div>
+<p>These papers introduce the neuron, map its design space, integrate it into Transformers and explore uncertainty as an agentic control signal.</p>
+</div>
+<div aria-label="arXiv publications" class="publications-grid">
+<a class="card publication-card reveal" href="publications/variational-distributional-neuron/">
+<div>
+<div class="publication-meta"><span class="tag">arXiv</span><span class="tag">2026</span></div>
+<h3>Variational Distributional Neuron</h3>
+<p>Introduces the proof of concept: a computational unit formulated as a local variational primitive with a prior, amortized posterior and local regularization.</p>
+</div>
+<span class="publication-link">View paper <span aria-hidden="true">↗</span></span>
+</a>
+<a class="card publication-card reveal" href="publications/exploring-dimensions-variational-neuron/">
+<div>
+<div class="publication-meta"><span class="tag">arXiv</span><span class="tag">2026</span></div>
+<h3>Exploring the Dimensions of a Variational Neuron</h3>
+<p>Studies latent dimensionality, local capacity, temporal persistence and the measurable internal operating regime of EVE.</p>
+</div>
+<span class="publication-link">View paper <span aria-hidden="true">↗</span></span>
+</a>
+<a class="card publication-card reveal" href="publications/variational-neurons-transformers-language-modeling/">
+<div>
+<div class="publication-meta"><span class="tag">arXiv</span><span class="tag">2026</span></div>
+<h3>Variational Neurons in Transformers for Language Modeling</h3>
+<p>Places EVE units inside Transformer feed-forward computation and evaluates predictive quality, calibration and uncertainty signals.</p>
+</div>
+<span class="publication-link">View paper <span aria-hidden="true">↗</span></span>
+</a>
+<a class="card publication-card reveal" href="publications/agentic-control-variational-language-models/">
+<div>
+<div class="publication-meta"><span class="tag">arXiv</span><span class="tag">2026</span></div>
+<h3>Agentic Control in Variational Language Models</h3>
+<p>Explores internal uncertainty as an operational signal for regulation, checkpoint retention and inference-time intervention.</p>
+</div>
+<span class="publication-link">View paper <span aria-hidden="true">↗</span></span>
+</a>
+</div>
+<div class="section-heading reveal" style="margin-top: 96px;">
+<div>
+<p class="section-kicker">Research</p>
+<h2>Publications.</h2>
+</div>
+<p>Research Square articles and Zenodo preprints.</p>
+</div>
+<div aria-label="Zenodo preprints" class="publications-grid"><a class="card publication-card reveal" href="publications/distributional-neurons-making-uncertainty-unit-computation/"><div><div class="publication-meta"><span class="tag">Research Article</span><span class="tag">Research Square</span><span class="tag">2026</span></div><h3>Distributional Neurons: Making Uncertainty a Unit of Computation</h3><p>EVE makes uncertainty a neuron-level computational primitive and evaluates it from a single-unit microscope to dense networks and Transformer feed-forward computation.</p></div><span class="publication-link">Publication page →</span></a><a class="card publication-card reveal" href="publications/the-neuron-is-the-distribution/"><div><div class="publication-meta"><span class="tag">Research Article</span><span class="tag">Research Square</span><span class="tag">2026</span></div><h3>The Neuron Is the Distribution</h3><p>Develops the architectural thesis that distributional representation can reside inside the neuron rather than only in weights, outputs or global latent variables.</p></div><span class="publication-link">Publication page →</span></a><a class="card publication-card reveal" href="publications/the-neuron-as-a-latent-state/"><div><div class="publication-meta"><span class="tag">Research Article</span><span class="tag">Research Square</span><span class="tag">2026</span></div><h3>The Neuron as a Latent State: Classical Variational Readout in Distributional Neural Units</h3><p>Freezes the learned EVE posterior and varies only the readout rule to test whether a neuron-level latent state carries predictive information beyond its mean.</p></div><span class="publication-link">Publication page →</span></a><a class="card publication-card reveal" href="publications/measuring-controlling-internal-activity-variational-neural-units/"><div><div class="publication-meta"><span class="tag">Method Article</span><span class="tag">Research Square</span><span class="tag">2026</span></div><h3>Measuring and Controlling Internal Activity in Variational Neural Units</h3><p>Defines a local variational neuron and a measurement protocol for KL activity, posterior mean energy, out-of-range units and optional autoregressive persistence.</p></div><span class="publication-link">Publication page →</span></a>
+<article class="card publication-card reveal">
+<div>
+<div class="publication-meta">
+<span class="tag">July 29, 2026 (v1)</span>
+<span class="tag">Preprint</span>
+<span class="tag">Open</span>
+</div>
+<h3>Measuring Internal Probabilistic Activity with Variational Distributional Neurons</h3>
+<p><strong>Yves Ruffenach</strong></p>
+<p>Measures unit-level posterior activity alongside predictive quality, calibration and tail-aware evaluation in next-token prediction.</p>
+<p><small>DOI: 10.5281/zenodo.21668942</small></p>
+</div>
+<a class="publication-link" href="publications/measuring-internal-probabilistic-activity/">Publication page <span aria-hidden="true">→</span></a>
+</article>
+<article class="card publication-card reveal">
+<div>
+<div class="publication-meta">
+<span class="tag">July 29, 2026 (v1)</span>
+<span class="tag">Preprint</span>
+<span class="tag">Open</span>
+</div>
+<h3>Variational Distributional Neurons for Measurable Internal Uncertainty in Language Models</h3>
+<p><strong>Yves Ruffenach</strong></p>
+<p>Evaluates EVE as a controlled small-scale mechanism for measurable internal distributional activity across five matched random seeds.</p>
+<p><small>DOI: 10.5281/zenodo.21669216</small></p>
+</div>
+<a class="publication-link" href="publications/variational-distributional-neurons-measurable-internal-uncertainty/">Publication page <span aria-hidden="true">→</span></a>
+</article>
+<article class="card publication-card reveal">
+<div>
+<div class="publication-meta">
+<span class="tag">July 28, 2026 (v1)</span>
+<span class="tag">Preprint</span>
+<span class="tag">Open</span>
+</div>
+<h3>Measuring Local Posterior Activity in Variational Language Model Units</h3>
+<p><strong>Yves Ruffenach</strong></p>
+<p>Introduces an internal measurement panel for local posterior activity and relates it to output-level predictive behavior.</p>
+<p><small>DOI: 10.5281/zenodo.21641827</small></p>
+</div>
+<a class="publication-link" href="publications/measuring-local-posterior-activity/">Publication page <span aria-hidden="true">→</span></a>
+</article>
+<article class="card publication-card reveal">
+<div>
+<div class="publication-meta">
+<span class="tag">July 27, 2026 (v1)</span>
+<span class="tag">Preprint</span>
+<span class="tag">Open</span>
+</div>
+<h3>Learning Distributions Inside a Language Model: Variational Neurons for Measurable Internal Uncertainty and Reliability Monitoring</h3>
+<p><strong>Yves Ruffenach</strong></p>
+<p>Presents EVE as a language-model architecture for measurable internal uncertainty, reliability monitoring and uncertainty-aware computation.</p>
+<p><small>DOI: 10.5281/zenodo.21632472</small></p>
+</div>
+<a class="publication-link" href="publications/learning-distributions-inside-language-model/">Publication page <span aria-hidden="true">→</span></a>
+</article>
+</div>
+</div>
+</section>
+<section id="investors">
+<div class="container">
+<div class="section-heading reveal">
+<div>
+<p class="section-kicker">For investors and strategic partners</p>
+<h2>A new computational primitive for uncertainty-aware AI.</h2>
+</div>
+<p><strong>JWAYU <span class="brand-inline-cn" lang="zh-CN">杰维宇</span></strong> is building intellectual property, experimental evidence and implementation expertise around Variational neurons and language models.</p>
+</div>
+<div class="investor-grid">
+<article class="card reveal">
+<span class="card-label">Why JWAYU</span>
+<h3>Change the unit, open a new model space.</h3>
+<div class="thesis-list">
+<div class="thesis-item"><span class="thesis-icon">1</span><div><h3>Distinct technical thesis</h3><p>Move probabilistic structure from only global mechanisms or outputs into hidden computational units.</p></div></div>
+<div class="thesis-item"><span class="thesis-icon">2</span><div><h3>Measurable internal state</h3><p>Expose local signals that can support calibration, robustness analysis, routing and model control.</p></div></div>
+<div class="thesis-item"><span class="thesis-icon">3</span><div><h3>Architecture-compatible path</h3><p>Develop the primitive inside familiar neural and Transformer backbones rather than replacing the entire ecosystem.</p></div></div>
+<div class="thesis-item"><span class="thesis-icon">4</span><div><h3>Published research trajectory</h3><p>A growing sequence of public preprints establishes the concept, design space, language-model integration and agentic use.</p></div></div>
+</div>
+</article>
+<aside class="card contact-card reveal">
+<div>
+<span class="card-label">Investor contact</span>
+<h3>Discuss the company, research roadmap and partnership opportunities.</h3>
+<p>For seed conversations, strategic investment, compute partnerships or industrial collaboration, contact the founder directly.</p>
+<div class="contact-person">
+<span aria-hidden="true" class="avatar"></span>
+<div><strong>Yves Ruffenach</strong><span>Research Engineer · Strasbourg, France</span></div>
+</div>
+</div>
+<div class="contact-actions">
+<a class="button button-primary" href="mailto:yves@ruffenach.net?subject=JWAYU%20%E2%80%94%20Investor%20introduction">Investor introduction <span aria-hidden="true">→</span></a>
+<a class="button button-secondary" href="mailto:yves@ruffenach.net?subject=JWAYU%20%E2%80%94%20Strategic%20partnership">Strategic partnership <span aria-hidden="true">→</span></a>
+</div>
+</aside>
+</div>
+</div>
+</section>
+<section id="contact">
+<div class="container">
+<div class="cta-panel reveal">
+<p class="section-kicker">Research · Engineering · Collaboration</p>
+<h2>Build the next generation of language models with us.</h2>
+<p>We welcome conversations with researchers, frontier-model teams, engineers, doctoral partners and organizations interested in uncertainty-aware multimodal and language models.</p>
+<div class="hero-actions">
+<a class="button button-primary" href="mailto:yves@ruffenach.net?subject=JWAYU%20%E2%80%94%20Research%20or%20technical%20contact">Contact JWAYU <span aria-hidden="true">→</span></a>
+<a class="button button-secondary" href="publications/">View all publications</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="container footer-grid">
+<div>
+<a aria-label="JWAYU 杰维宇 home" class="brand" href="#top"><span class="brand-mark"><img alt="" height="38" src="assets/img/logo-jwayu-96.png" width="38"/></span><span class="brand-name-stack"><span class="brand-word">JWAYU</span><span class="brand-cn" lang="zh-CN">杰维宇</span></span></a>
+<p class="footer-copy">© <span data-year=""></span> JWAYU 杰维宇. Variational language models.</p>
+</div>
+<div class="footer-links">
+<a href="#publications">Publications</a>
+<a href="mailto:yves@ruffenach.net">Email</a>
+<a href="fr/" hreflang="fr">Français</a><a href="zh/" hreflang="zh-Hans">中文</a><a href="es/" hreflang="es">Español</a><a href="it/" hreflang="it">Italiano</a><a href="de/" hreflang="de">Deutsch</a></div>
+</div>
+</footer>
+</body>
+</html>
