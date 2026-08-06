@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Variational Transformer — Research Validation Proposal | JWAYU</title>
+  <meta name="description" content="Can a Transformer carry uncertainty through its own computation? JWAYU proposes a controlled 8–12 week validation of a Variational Transformer against matched deterministic baselines.">
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+  <meta name="theme-color" content="#061431">
+  <link rel="canonical" href="https://jwayu.com/variational-transformer/">
+  <link rel="icon" href="../assets/img/logo-jwayu-48.png" type="image/png">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Variational Transformer — Research Validation Proposal">
+  <meta property="og:description" content="Uncertainty represented and propagated inside the Transformer—not only estimated at its output.">
+  <meta property="og:url" content="https://jwayu.com/variational-transformer/">
+  <meta property="og:image" content="https://jwayu.com/assets/img/publications/jwayu-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Variational Transformer — Research Validation Proposal">
+  <meta name="twitter:description" content="Can a Transformer carry uncertainty through its own computation?">
+  <meta name="twitter:image" content="https://jwayu.com/assets/img/publications/jwayu-1200x630.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": "https://jwayu.com/variational-transformer/#article",
+    "headline": "Variational Transformer — Research Validation Proposal",
+    "description": "A non-confidential research brief proposing a controlled validation of a Transformer that represents and propagates uncertainty inside its hidden computation.",
+    "url": "https://jwayu.com/variational-transformer/",
+    "author": {"@id": "https://jwayu.com/people/yves-ruffenach/#person"},
+    "publisher": {"@id": "https://jwayu.com/#organization"},
+    "dateModified": "2026-08-06",
+    "inLanguage": "en",
+    "about": [
+      "variational Transformer",
+      "variational neuron",
+      "internal uncertainty",
+      "out-of-distribution robustness",
+      "language models"
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --brief-bg: #061431;
+      --brief-panel: rgba(255, 255, 255, 0.055);
+      --brief-panel-strong: rgba(255, 255, 255, 0.085);
+      --brief-line: rgba(255, 255, 255, 0.15);
+      --brief-text: #edf4ff;
+      --brief-muted: #b9c9dc;
+      --brief-accent: #8ddcff;
+      --brief-accent-soft: rgba(141, 220, 255, 0.13);
+      --brief-warm: #f9d58a;
+      --brief-warm-soft: rgba(249, 213, 138, 0.11);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 82% 7%, rgba(33, 145, 198, 0.18), transparent 30rem),
+        radial-gradient(circle at 10% 28%, rgba(100, 101, 255, 0.10), transparent 27rem),
+        var(--brief-bg);
+      color: var(--brief-text);
+    }
+
+    .brief-shell {
+      width: min(1080px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .brief-header {
+      border-bottom: 1px solid var(--brief-line);
+      background: rgba(6, 20, 49, 0.88);
+      backdrop-filter: blur(10px);
+    }
+
+    .brief-header-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brief-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: inherit;
+      text-decoration: none;
+      font-weight: 760;
+      letter-spacing: 0.01em;
+    }
+
+    .brief-brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    .brief-back,
+    .brief-link {
+      color: var(--brief-accent);
+      text-decoration: none;
+    }
+
+    .brief-back { font-size: 0.94rem; }
+    .brief-back:hover,
+    .brief-back:focus-visible,
+    .brief-link:hover,
+    .brief-link:focus-visible { color: #ffffff; }
+
+    .brief-main { padding: 4.4rem 0 5rem; }
+
+    .brief-kicker {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 0 1.1rem;
+      padding: 0.43rem 0.72rem;
+      border: 1px solid rgba(141, 220, 255, 0.32);
+      border-radius: 999px;
+      background: var(--brief-accent-soft);
+      color: #dff7ff;
+      font-size: 0.82rem;
+      font-weight: 760;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .brief-title {
+      max-width: 900px;
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 6.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+    }
+
+    .brief-question {
+      max-width: 920px;
+      margin: 1.6rem 0 0;
+      font-size: clamp(1.42rem, 3.4vw, 2.45rem);
+      line-height: 1.28;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+    }
+
+    .brief-intro {
+      max-width: 820px;
+      margin: 1.25rem 0 0;
+      color: var(--brief-muted);
+      font-size: 1.06rem;
+      line-height: 1.76;
+    }
+
+    .brief-intro strong { color: #ffffff; }
+
+    .brief-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 2rem 0 0;
+    }
+
+    .brief-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.82rem 1.08rem;
+      border-radius: 0.72rem;
+      text-decoration: none;
+      font-weight: 760;
+    }
+
+    .brief-button-primary { background: #ffffff; color: #061431; }
+    .brief-button-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .brief-section { margin-top: 4.1rem; }
+
+    .brief-section-label {
+      margin: 0 0 0.7rem;
+      color: var(--brief-accent);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.075em;
+      text-transform: uppercase;
+    }
+
+    .brief-section-title {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(1.85rem, 4vw, 3.2rem);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .brief-section-copy {
+      max-width: 790px;
+      margin: 1rem 0 0;
+      color: var(--brief-muted);
+      font-size: 1.02rem;
+      line-height: 1.74;
+    }
+
+    .brief-contrast {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+
+    .brief-path {
+      border: 1px solid var(--brief-line);
+      border-radius: 1rem;
+      background: var(--brief-panel);
+      padding: clamp(1.25rem, 3vw, 1.8rem);
+    }
+
+    .brief-path.is-research {
+      border-color: rgba(141, 220, 255, 0.28);
+      background: linear-gradient(145deg, rgba(141, 220, 255, 0.105), rgba(255,255,255,0.035));
+    }
+
+    .brief-path-label {
+      color: var(--brief-muted);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .brief-path.is-research .brief-path-label { color: var(--brief-accent); }
+
+    .brief-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0.45rem;
+      margin: 1.1rem 0;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+    }
+
+    .brief-node {
+      min-width: 102px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 0.65rem;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 0.65rem;
+      background: rgba(255,255,255,0.045);
+      color: #ffffff;
+      text-align: center;
+      font-size: 0.86rem;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .brief-path.is-research .brief-node {
+      border-color: rgba(141,220,255,0.25);
+      background: rgba(141,220,255,0.07);
+    }
+
+    .brief-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--brief-muted);
+      font-weight: 800;
+    }
+
+    .brief-path p {
+      margin: 0;
+      color: #d6e3f3;
+      line-height: 1.62;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+
+    .brief-card {
+      grid-column: span 4;
+      border: 1px solid var(--brief-line);
+      border-radius: 1rem;
+      background: var(--brief-panel);
+      padding: clamp(1.2rem, 3vw, 1.85rem);
+    }
+
+    .brief-card.half { grid-column: span 6; }
+    .brief-card.wide { grid-column: span 12; }
+    .brief-card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.35;
+    }
+    .brief-card p {
+      margin: 0.75rem 0 0;
+      color: #d6e3f3;
+      line-height: 1.66;
+    }
+
+    .brief-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      margin-bottom: 0.85rem;
+      border-radius: 0.58rem;
+      background: var(--brief-accent-soft);
+      color: var(--brief-accent);
+      font-weight: 800;
+    }
+
+    .brief-evidence {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.2rem;
+      align-items: start;
+      padding: 1.15rem 0;
+      border-top: 1px solid var(--brief-line);
+    }
+
+    .brief-evidence:first-child { border-top: 0; padding-top: 0; }
+    .brief-evidence:last-child { padding-bottom: 0; }
+    .brief-evidence h3 { margin: 0; font-size: 1.08rem; line-height: 1.4; }
+    .brief-evidence p { margin: 0.42rem 0 0; color: var(--brief-muted); line-height: 1.58; }
+    .brief-evidence-meta { color: #9eb0c7; font-size: 0.86rem; }
+
+    .brief-validation {
+      border: 1px solid rgba(249, 213, 138, 0.24);
+      background: linear-gradient(145deg, var(--brief-warm-soft), rgba(255,255,255,0.035));
+    }
+
+    .brief-validation .brief-number {
+      background: var(--brief-warm-soft);
+      color: var(--brief-warm);
+    }
+
+    .brief-standard {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--brief-line);
+    }
+
+    .brief-standard strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--brief-accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .brief-note {
+      margin-top: 1rem;
+      padding: 1rem 1.1rem;
+      border-left: 3px solid var(--brief-accent);
+      background: rgba(141, 220, 255, 0.055);
+      color: #c9d8ea;
+      line-height: 1.62;
+    }
+
+    .brief-cta {
+      margin-top: 4.2rem;
+      border: 1px solid rgba(141, 220, 255, 0.30);
+      border-radius: 1.15rem;
+      background: var(--brief-panel-strong);
+      padding: clamp(1.6rem, 5vw, 3rem);
+      text-align: center;
+    }
+
+    .brief-cta h2 {
+      max-width: 790px;
+      margin: 0 auto;
+      font-size: clamp(1.8rem, 4.5vw, 3.25rem);
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+    }
+
+    .brief-cta p {
+      max-width: 720px;
+      margin: 1rem auto 0;
+      color: var(--brief-muted);
+      line-height: 1.7;
+    }
+
+    .brief-contact {
+      color: #ffffff !important;
+      font-weight: 760;
+    }
+
+    .brief-fineprint {
+      font-size: 0.86rem;
+      color: #9fb1c8 !important;
+    }
+
+    .brief-footer {
+      border-top: 1px solid var(--brief-line);
+      padding: 1.5rem 0 2.4rem;
+      color: var(--brief-muted);
+      font-size: 0.9rem;
+    }
+
+    .brief-footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem 1.4rem;
+    }
+
+    @media (max-width: 820px) {
+      .brief-main { padding-top: 3.2rem; }
+      .brief-contrast { grid-template-columns: 1fr; }
+      .brief-card,
+      .brief-card.half { grid-column: span 12; }
+      .brief-evidence { grid-template-columns: 1fr; gap: 0.45rem; }
+      .brief-header-inner { min-height: 66px; }
+      .brief-back { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="brief-header">
+    <div class="brief-shell brief-header-inner">
+      <a class="brief-brand" href="../" aria-label="JWAYU home">
+        <img src="../assets/img/logo-jwayu-96.png" width="42" height="42" alt="">
+        <span>JWAYU Research</span>
+      </a>
+      <a class="brief-back" href="../publications/">Publications</a>
+    </div>
+  </header>
+
+  <main class="brief-main">
+    <article class="brief-shell">
+      <p class="brief-kicker">Controlled research validation proposal</p>
+      <h1 class="brief-title">Variational Transformer</h1>
+      <p class="brief-question">Can a Transformer carry uncertainty through its own computation—not only report confidence at the output?</p>
+      <p class="brief-intro">JWAYU is testing a different architectural premise: <strong>uncertainty should remain visible inside the network</strong>, where representations are formed and decisions emerge. The goal is not merely to add uncertain weights or an output-variance head, but to make uncertainty an addressable hidden state of computation.</p>
+
+      <div class="brief-actions">
+        <a class="brief-button brief-button-primary" href="mailto:yves@ruffenach.net?subject=Variational%20Transformer%20technical%20evaluation">Discuss a technical evaluation</a>
+        <a class="brief-button brief-button-secondary" href="#public-evidence">See the public evidence</a>
+      </div>
+
+      <section class="brief-section" aria-labelledby="research-question">
+        <p class="brief-section-label">The architectural question</p>
+        <h2 class="brief-section-title" id="research-question">Point-valued hidden states can compress ambiguity before the model exposes it.</h2>
+        <p class="brief-section-copy">Most Transformers pass deterministic vectors from one operation to the next. Confidence is then estimated from the final output, after many internal choices have already been collapsed into point values. JWAYU investigates whether locally inferred distributions can preserve information about ambiguity as computation moves through Transformer blocks.</p>
+
+        <div class="brief-contrast" aria-label="Conceptual comparison">
+          <div class="brief-path">
+            <span class="brief-path-label">Conventional path</span>
+            <div class="brief-flow" aria-hidden="true">
+              <div class="brief-node">Hidden vector</div><div class="brief-arrow">→</div>
+              <div class="brief-node">Attention</div><div class="brief-arrow">→</div>
+              <div class="brief-node">FFN</div><div class="brief-arrow">→</div>
+              <div class="brief-node">Output confidence</div>
+            </div>
+            <p>Internal ambiguity may be compressed into point-valued states before confidence is assessed.</p>
+          </div>
+
+          <div class="brief-path is-research">
+            <span class="brief-path-label">JWAYU research path</span>
+            <div class="brief-flow" aria-hidden="true">
+              <div class="brief-node">Local posterior</div><div class="brief-arrow">→</div>
+              <div class="brief-node">Latent trajectories</div><div class="brief-arrow">→</div>
+              <div class="brief-node">Attention + FFN</div><div class="brief-arrow">→</div>
+              <div class="brief-node">Prediction + internal uncertainty</div>
+            </div>
+            <p>The research hypothesis is that uncertainty can remain measurable while the representation itself is transformed.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="brief-section" aria-labelledby="why-it-matters">
+        <p class="brief-section-label">Why it could matter</p>
+        <h2 class="brief-section-title" id="why-it-matters">An internal uncertainty signal is valuable only if it changes a decision.</h2>
+        <div class="brief-grid">
+          <div class="brief-card">
+            <span class="brief-number" aria-hidden="true">01</span>
+            <h3>Detect unfamiliar or ambiguous inputs</h3>
+            <p>Identify situations in which the model’s internal computation becomes less reliable, including distribution shift and missing context.</p>
+          </div>
+          <div class="brief-card">
+            <span class="brief-number" aria-hidden="true">02</span>
+            <h3>Abstain or verify before acting</h3>
+            <p>Use uncertainty to request clarification, trigger a check, consult another model or escalate to a human operator.</p>
+          </div>
+          <div class="brief-card">
+            <span class="brief-number" aria-hidden="true">03</span>
+            <h3>Allocate computation selectively</h3>
+            <p>Spend additional inference or search budget only when the model’s internal state indicates that the current answer is fragile.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="brief-section" id="public-evidence" aria-labelledby="evidence-title">
+        <p class="brief-section-label">Public evidence already available</p>
+        <h2 class="brief-section-title" id="evidence-title">The program starts from published mechanisms and working prototypes—not from a blank page.</h2>
+        <p class="brief-section-copy">The public work establishes the variational neuron, its integration into Transformer feed-forward blocks and a controlled evaluation pipeline. It does not yet claim that a fully variational Transformer is superior at scale; that is the question the proposed validation is designed to answer.</p>
+
+        <div class="brief-card wide" style="margin-top:1.6rem">
+          <div class="brief-evidence">
+            <div>
+              <h3>Variational Distributional Neuron</h3>
+              <p>Introduces an input-conditioned local latent state with measurable posterior activity at the level of the computational unit.</p>
+              <p class="brief-evidence-meta">DOI 10.48550/arXiv.2602.18250</p>
+            </div>
+            <a class="brief-link" href="../publications/variational-distributional-neuron/">Read publication →</a>
+          </div>
+
+          <div class="brief-evidence">
+            <div>
+              <h3>Variational Neurons in Transformers for Language Modeling</h3>
+              <p>Places variational units inside Transformer feed-forward computation and evaluates prediction, calibration and internal uncertainty signals.</p>
+              <p class="brief-evidence-meta">DOI 10.48550/arXiv.2603.28219</p>
+            </div>
+            <a class="brief-link" href="../publications/variational-neurons-transformers-language-modeling/">Read publication →</a>
+          </div>
+
+          <div class="brief-evidence">
+            <div>
+              <h3>Variational Distributional Neurons for Measurable Internal Uncertainty in Language Models</h3>
+              <p>Provides a controlled five-seed study and a reproducible pipeline for evaluating internal probabilistic activity.</p>
+              <p class="brief-evidence-meta">DOI 10.5281/zenodo.21669216</p>
+            </div>
+            <a class="brief-link" href="../publications/variational-distributional-neurons-measurable-internal-uncertainty/">Read publication →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="brief-section" aria-labelledby="validation-title">
+        <p class="brief-section-label">The proposed first step</p>
+        <h2 class="brief-section-title" id="validation-title">A bounded 8–12 week technical evaluation before any large-scale commitment.</h2>
+        <p class="brief-section-copy">The purpose is to determine whether the architecture creates a real, measurable advantage under an equitable comparison—not to assume the answer in advance.</p>
+
+        <div class="brief-grid">
+          <div class="brief-card">
+            <span class="brief-number" aria-hidden="true">01</span>
+            <h3>Matched benchmark</h3>
+            <p>One compact Transformer task with deterministic, heteroscedastic and stochastic baselines matched as closely as possible in architecture and compute.</p>
+          </div>
+          <div class="brief-card">
+            <span class="brief-number" aria-hidden="true">02</span>
+            <h3>Stress conditions</h3>
+            <p>In-distribution evaluation plus ambiguous, incomplete and out-of-distribution inputs, with multiple seeds and a frozen final test.</p>
+          </div>
+          <div class="brief-card">
+            <span class="brief-number" aria-hidden="true">03</span>
+            <h3>Decision, not demonstration theatre</h3>
+            <p>Predefined Go, Pivot or Stop criteria, accompanied by reproducible code, statistical analysis and a measured scale-up estimate.</p>
+          </div>
+
+          <div class="brief-card half brief-validation">
+            <span class="brief-number" aria-hidden="true">A</span>
+            <h3>Probabilistic robustness</h3>
+            <p>Does the model improve NLL, CRPS or calibration under ambiguity and distribution shift without simply widening its predictions or sacrificing task quality?</p>
+            <div class="brief-standard">
+              <strong>Success standard</strong>
+              <p>A reproducible gain against matched baselines at comparable predictive performance and explicitly measured cost.</p>
+            </div>
+          </div>
+
+          <div class="brief-card half brief-validation">
+            <span class="brief-number" aria-hidden="true">B</span>
+            <h3>Actionable uncertainty</h3>
+            <p>Does the internal signal predict failures well enough to improve abstention, verification, escalation or adaptive-compute decisions?</p>
+            <div class="brief-standard">
+              <strong>Success standard</strong>
+              <p>A better risk-aware decision than output confidence alone, with a defensible latency, memory and compute overhead.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="brief-note"><strong>No large-scale superiority claim is made on this page.</strong> The value of the proposal is precisely that it turns the open architectural question into a short, falsifiable and economically bounded experiment.</p>
+      </section>
+
+      <section class="brief-cta" aria-labelledby="partner-title">
+        <h2 id="partner-title">Evaluate the architecture before scaling it.</h2>
+        <p>JWAYU is seeking a technical research partner to independently test whether internal variational computation produces a useful advantage before significant scale-up expenditure.</p>
+        <p class="brief-contact">Contact: <a class="brief-link" href="../people/yves-ruffenach/">Yves Ruffenach</a> — Founder &amp; Research Lead, JWAYU</p>
+        <div class="brief-actions" style="justify-content:center">
+          <a class="brief-button brief-button-primary" href="mailto:yves@ruffenach.net?subject=Variational%20Transformer%20technical%20evaluation">Start a technical discussion</a>
+        </div>
+        <p class="brief-fineprint">This is a non-confidential overview. Unpublished mechanisms, source code and detailed experimental material are disclosed only within an appropriate confidential framework.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="brief-footer">
+    <div class="brief-shell brief-footer-inner">
+      <span>© 2026 JWAYU 杰维宇</span>
+      <a class="brief-link" href="../">jwayu.com</a>
+    </div>
+  </footer>
+</body>
+</html>
