@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://jwayu.com/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://jwayu.com/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://jwayu.com/fr/" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jwayu.com/zh/" />
@@ -68,7 +68,7 @@
   </url>
   <url>
     <loc>https://jwayu.com/publications/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://jwayu.com/publications/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://jwayu.com/fr/publications/" />
     <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jwayu.com/zh/publications/" />
@@ -941,8 +941,16 @@
     <lastmod>2026-07-29</lastmod>
   </url>
   <url>
+    <loc>https://jwayu.com/publications/variational-neurons-bayesian-neural-networks/</loc>
+    <lastmod>2026-08-10</lastmod>
+  </url>
+  <url>
+    <loc>https://jwayu.com/publications/variational-neurons-bayesian-neural-networks/variational-neurons-bayesian-neural-networks.pdf</loc>
+    <lastmod>2026-08-10</lastmod>
+  </url>
+  <url>
     <loc>https://jwayu.com/people/yves-ruffenach/</loc>
-    <lastmod>2026-08-05</lastmod>
+    <lastmod>2026-08-10</lastmod>
   </url>
   <url>
     <loc>https://jwayu.com/variational-neuron/</loc>
