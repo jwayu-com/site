@@ -153,6 +153,11 @@ JWAYU does not use the following as synonyms for EVE:
 
 ### Broader architectural framing
 
+- Variational Neurons and Bayesian Neural Networks: Distinct Probabilistic Objects, Inference Loci, and Computational Granularity
+  - JWAYU page: https://jwayu.com/publications/variational-neurons-bayesian-neural-networks/
+  - DOI: https://doi.org/10.5281/zenodo.21870089
+  - Contribution: separates four non-equivalent probabilistic axes, defines six architecture-reporting questions and formalizes a seven-clause unit-level variational-neuron specification criterion; EVE supplies controlled mechanistic and exact-capacity evidence.
+
 - Distributional Neurons: Making Uncertainty a Unit of Computation
   - JWAYU page: https://jwayu.com/publications/distributional-neurons-making-uncertainty-unit-computation/
   - DOI: https://doi.org/10.21203/rs.3.rs-10401116/v1

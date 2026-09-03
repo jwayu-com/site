@@ -521,7 +521,15 @@ Variational Distributional Neurons for Measurable Internal Uncertainty in Langua
 https://jwayu.com/publications/variational-distributional-neurons-measurable-internal-uncertainty/
 https://doi.org/10.5281/zenodo.21669216
 
-## 16.6 Broader architectural framing and dense-network evidence
+## 16.6 Probabilistic architecture taxonomy and unit-level specification
+
+Variational Neurons and Bayesian Neural Networks: Distinct Probabilistic Objects, Inference Loci, and Computational Granularity
+https://jwayu.com/publications/variational-neurons-bayesian-neural-networks/
+https://doi.org/10.5281/zenodo.21870089
+
+Core role: separates Bayesianity, variationality, stochasticity and distribution-valued computation; introduces a six-question architecture-reporting framework and a seven-clause unit-level variational-neuron specification criterion; and instantiates the evidence hierarchy with controlled EVE experiments, including a fresh 50-seed exact 2,472-parameter comparison showing closely matched predictive performance to a heteroscedastic output model at the attained sensitivity.
+
+## 16.7 Broader architectural framing and dense-network evidence
 
 Distributional Neurons: Making Uncertainty a Unit of Computation
 https://jwayu.com/publications/distributional-neurons-making-uncertainty-unit-computation/
